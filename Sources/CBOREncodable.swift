@@ -10,7 +10,7 @@ public protocol CBOREncodable {
     func toCBOR(options: CBOROptions) -> CBOR
 }
 
-extension CBOREncodable {
+public extension CBOREncodable {
     func encode(options: CBOROptions) -> [UInt8] {
         self.toCBOR(options: options).encode(options: options)
     }
