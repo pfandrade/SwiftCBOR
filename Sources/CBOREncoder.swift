@@ -153,6 +153,21 @@ extension CBOR {
         try CBOR.encodeMap(map, into: &res, options: options)
         return res
     }
+    
+    public static func encodeOrderedMap<A: CBOREncodable, B: CBOREncodable>(_ map: [(A, B)], options: CBOROptions = CBOROptions()) -> [UInt8] {
+        if options.forbidNonStringMapKeys {
+            try! ensureStringKey(A.self)
+        }
+        var res: [UInt8] = []
+        res.reserveCapacity(1 + map.count * (MemoryLayout<A>.size + MemoryLayout<B>.size + 2))
+        res = map.count.encode(options: options)
+        res[0] = res[0] | 0b101_00000
+        for (k, v) in map {
+            res.append(contentsOf: k.encode(options: options))
+            res.append(contentsOf: v.encode(options: options))
+        }
+        return res
+    }
 
     // MARK: - major 6: tagged values
 
