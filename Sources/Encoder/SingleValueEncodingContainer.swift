@@ -131,14 +131,14 @@ extension _CBOREncoder.SingleValueContainer: SingleValueEncodingContainer {
         self.storage.append(contentsOf: CBOR.encode(value))
     }
 
-    func encode(_ value: Date) throws {
+    private func encode(_ value: Date) throws {
         try checkCanEncode(value: value)
         defer { self.canEncodeNewValue = false }
 
         self.storage.append(contentsOf: CBOR.encodeDate(value, options: self.options.toCBOROptions()))
     }
 
-    func encode(_ value: Data) throws {
+    private func encode(_ value: Data) throws {
         try checkCanEncode(value: value)
         defer { self.canEncodeNewValue = false }
 

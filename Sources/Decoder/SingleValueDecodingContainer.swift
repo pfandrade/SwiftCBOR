@@ -231,7 +231,7 @@ extension _CBORDecoder.SingleValueContainer: SingleValueDecodingContainer {
         }
     }
 
-    func decode(_ type: Data.Type) throws -> Data {
+    private func decode(_ type: Data.Type) throws -> Data {
         guard let cbor = try? CBOR.decode(self.data.map { $0 }) else {
             let context = DecodingError.Context(codingPath: self.codingPath, debugDescription: "Invalid format: \(self.data)")
             throw DecodingError.dataCorrupted(context)
